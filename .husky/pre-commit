@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm test && npx prettier --check "src/**/*.ts"
+npm test && npx prettier --check "src/**/*.ts" && npx eslint "**/*.ts"

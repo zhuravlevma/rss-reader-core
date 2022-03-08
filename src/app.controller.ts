@@ -7,7 +7,6 @@ export class AppController {
 
   @Get()
   async getHello(): Promise<string> {
-    const ha = 'dwd';
     return await this.appService.getHello();
   }
 }
