@@ -1,10 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { UserModel } from './user.entity';
+import { UserModel } from './user.model';
 
-@Entity()
+@Entity({ name: 'link' })
 export class LinkModel {
   @PrimaryGeneratedColumn()
-  id: string;
+  link_id: string;
 
   @Column({ length: 255, type: 'varchar' })
   name: string;

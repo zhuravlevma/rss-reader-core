@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModel } from '../../database/model/user.entity';
+import { UserModel } from '../../database/model/user.model';
 import { DatabaseModule } from '../../database/database.module';
 
 describe('UserController', () => {
