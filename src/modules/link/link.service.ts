@@ -21,6 +21,10 @@ export class LinkService {
     return this.linkRepository.find();
   }
 
+  findAllByUserId(user_id: string) {
+    return this.linkRepository.find({ user_id: user_id });
+  }
+
   findOne(id: string) {
     return this.linkRepository.findOne(id);
   }
