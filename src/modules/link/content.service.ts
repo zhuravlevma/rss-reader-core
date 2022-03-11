@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import * as convert from 'xml-js';
 import { LinkService } from './link.service';
 import { FindAllContentDto } from './dto/find-all-content.dto';
