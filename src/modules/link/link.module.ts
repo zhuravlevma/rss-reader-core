@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { LinkService } from './link.service';
 import { LinkController } from './link.controller';
-import { DatabaseModule } from 'src/database/database.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { LinkModel } from '../../database/model/link.model';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [TypeOrmModule.forFeature([LinkModel])],
   controllers: [LinkController],
   providers: [LinkService],
 })

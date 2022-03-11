@@ -12,7 +12,7 @@ import { UserModel } from './model/user.model';
       password: '',
       database: 'rss',
       entities: [LinkModel, UserModel],
-      synchronize: false,
+      synchronize: true,
     }),
   ],
 })
