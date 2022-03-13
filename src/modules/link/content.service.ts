@@ -9,10 +9,8 @@ import { FindOneContentDto } from './dto/find-one-content.dto';
 export class ContentService {
   constructor(private readonly linkService: LinkService) {}
 
-  async findAll(findAllContentDto: FindAllContentDto) {
-    const links = await this.linkService.findAllByUserId(
-      findAllContentDto.user_id,
-    );
+  async findAll(findAllContentDto: FindAllContentDto, user_id: string) {
+    const links = await this.linkService.findAllByUserId(user_id);
     const linkUrls = links.map((link) => link.link);
     const xmlData = await Promise.all(linkUrls.map((url) => axios.get(url)));
     return xmlData.map(({ data }, idx) => ({

@@ -12,13 +12,18 @@ export class LinkService {
     private linkRepository: Repository<LinkModel>,
   ) {}
 
-  create(createLinkDto: CreateLinkDto) {
-    const link = this.linkRepository.create(createLinkDto);
+  create(createLinkDto: CreateLinkDto, user_id: string) {
+    const link = this.linkRepository.create({
+      ...createLinkDto,
+      user_id,
+    });
     return this.linkRepository.save(link);
   }
 
-  findAll() {
-    return this.linkRepository.find();
+  findAll(user: string) {
+    return this.linkRepository.find({
+      user_id: user,
+    });
   }
 
   findAllByUserId(user_id: string) {

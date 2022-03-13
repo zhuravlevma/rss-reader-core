@@ -18,6 +18,9 @@ export class LinkModel {
   @Column({ length: 255, type: 'varchar', nullable: false })
   link: string;
 
+  @Column({ length: 255, type: 'varchar', nullable: false })
+  description: string;
+
   @Column({ name: 'user_id', nullable: false })
   user_id: string;
 
