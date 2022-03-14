@@ -2,9 +2,12 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { ContentModel } from './content.model';
+import { User } from '../../modules/user/entities/user.entity';
 import { UserModel } from './user.model';
 
 @Entity({ name: 'link' })
@@ -15,18 +18,26 @@ export class LinkModel {
   @Column({ length: 255, type: 'varchar', nullable: false })
   name: string;
 
-  @Column({ length: 255, type: 'varchar', nullable: false })
+  @Column({ length: 255, type: 'varchar', nullable: false, unique: true })
   link: string;
 
   @Column({ length: 255, type: 'varchar', nullable: false })
   description: string;
 
-  @Column({ name: 'user_id', nullable: false })
-  user_id: string;
+  @OneToMany(() => ContentModel, (content) => content.link)
+  content: ContentModel[];
 
-  @ManyToOne(() => UserModel, (user) => user.links, {
-    cascade: true,
+  @ManyToMany(() => UserModel)
+  @JoinTable({
+    name: 'user_to_link',
+    joinColumn: {
+      name: 'link_id',
+      referencedColumnName: 'link_id',
+    },
+    inverseJoinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'user_id',
+    },
   })
-  @JoinColumn({ name: 'user_id' })
-  user: UserModel;
+  user: UserModel[];
 }

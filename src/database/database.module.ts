@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ContentModel } from './model/content.model';
 import { LinkModel } from './model/link.model';
 import { UserModel } from './model/user.model';
 
@@ -12,7 +13,7 @@ import { UserModel } from './model/user.model';
       username: 'zhuravlevma',
       password: '',
       database: 'rss',
-      entities: [LinkModel, UserModel],
+      entities: [LinkModel, UserModel, ContentModel],
       synchronize: true,
     }),
   ],
