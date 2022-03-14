@@ -5,7 +5,7 @@ import { LinkService } from './link.service';
 import { FindAllContentDto } from './dto/find-all-content.dto';
 import { FindOneContentDto } from './dto/find-one-content.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ContentModel } from '../../database/model/content.model';
 import { LinkModel } from '../../database/model/link.model';
 
@@ -20,19 +20,21 @@ export class ContentService {
   ) {}
 
   async findAll(findAllContentDto: FindAllContentDto, user_id: string) {
-    return this.linkRepository
+    const ids = await this.linkRepository
       .createQueryBuilder('link')
-      .leftJoinAndSelect('link.content', 'content')
       .leftJoinAndSelect('link.user', 'user')
-      .select([
-        'link.link_id',
-        'link.name',
-        'link.link',
-        'link.description',
-        'content',
-      ])
+      .select(['link.link_id'])
       .where('user.user_id = :user_id', { user_id })
       .getMany();
+    console.log(ids);
+    return this.contentRepository.find({
+      where: {
+        link_id: In(ids.map((el) => el.link_id)),
+      },
+      order: {
+        date: 'DESC',
+      },
+    });
   }
 
   async findOne(findOneContentDto: FindOneContentDto) {
@@ -57,25 +59,44 @@ export class ContentService {
           const infoItem = {};
           if (item.name === 'image') {
             for (const elem of item.elements) {
-              console.log(elem);
               if (elem.name === 'url') {
-                image = elem.elements[0].text;
+                if (elem.elements[0].text) {
+                  image = elem.elements[0].text;
+                } else if (elem.elements[0].cdata) {
+                  image = elem.elements[0].cdata;
+                }
               }
             }
           }
           if (item.name !== 'item') continue;
+          // console.log(item.elements);
           for (const info of item.elements) {
             if (info.name === 'title') {
-              infoItem['title'] = info.elements[0].cdata;
+              if (info.elements[0].cdata) {
+                infoItem['title'] = info.elements[0].cdata;
+              }
+              if (info.elements[0].text) {
+                infoItem['title'] = info.elements[0].text;
+              }
             }
             if (info.name === 'guid') {
-              infoItem['link'] = info.elements[0].text;
+              if (info.elements[0].text) {
+                infoItem['link'] = info.elements[0].text;
+              }
+              if (info.elements[0].cdata) {
+                infoItem['link'] = info.elements[0].cdata;
+              }
             }
             if (info.name === 'pubDate') {
               infoItem['date'] = new Date(info.elements[0].text);
             }
             if (info.name === 'description') {
-              infoItem['description'] = info.elements[0].cdata;
+              if (info.elements[0].text) {
+                infoItem['description'] = info.elements[0].text;
+              }
+              if (info.elements[0].cdata) {
+                infoItem['description'] = info.elements[0].cdata;
+              }
             }
             infoItem['link_id'] = linkIds[i];
           }
