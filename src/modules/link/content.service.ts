@@ -52,8 +52,17 @@ export class ContentService {
     for (const { data } of xmlData) {
       const xmlJson = convert.xml2js(data);
       for (const el of xmlJson.elements[0].elements) {
+        let image;
         for (const item of el.elements) {
           const infoItem = {};
+          if (item.name === 'image') {
+            for (const elem of item.elements) {
+              console.log(elem);
+              if (elem.name === 'url') {
+                image = elem.elements[0].text;
+              }
+            }
+          }
           if (item.name !== 'item') continue;
           for (const info of item.elements) {
             if (info.name === 'title') {
@@ -77,6 +86,7 @@ export class ContentService {
               link_id: infoItem['link_id'],
               title: infoItem['title'],
               description: infoItem['description'],
+              logo_url: image,
             }),
           );
         }
