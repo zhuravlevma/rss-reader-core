@@ -7,6 +7,7 @@ import { FindOneContentDto } from './dto/find-one-content.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ContentModel } from '../../database/model/content.model';
+import { LinkModel } from '../../database/model/link.model';
 
 @Injectable()
 export class ContentService {
@@ -14,17 +15,24 @@ export class ContentService {
     private readonly linkService: LinkService,
     @InjectRepository(ContentModel)
     private contentRepository: Repository<ContentModel>,
+    @InjectRepository(LinkModel)
+    private linkRepository: Repository<LinkModel>,
   ) {}
 
   async findAll(findAllContentDto: FindAllContentDto, user_id: string) {
-    const links = await this.linkService.findAllByUserId(user_id);
-    const linkUrls = links.map((link) => link.link);
-    const xmlData = await Promise.all(linkUrls.map((url) => axios.get(url)));
-    const data = xmlData.map(({ data }, idx) => ({
-      link: linkUrls[idx],
-      data: convert.xml2js(data),
-    }));
-    return data;
+    return this.linkRepository
+      .createQueryBuilder('link')
+      .leftJoinAndSelect('link.content', 'content')
+      .leftJoinAndSelect('link.user', 'user')
+      .select([
+        'link.link_id',
+        'link.name',
+        'link.link',
+        'link.description',
+        'content',
+      ])
+      .where('user.user_id = :user_id', { user_id })
+      .getMany();
   }
 
   async findOne(findOneContentDto: FindOneContentDto) {

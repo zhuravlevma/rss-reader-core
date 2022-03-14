@@ -13,7 +13,7 @@ export class ContentController {
   constructor(private readonly contentService: ContentService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Get(':user_id')
+  @Get()
   findAll(@Request() req, @Param() findAllContentDto: FindAllContentDto) {
     const user = req.user;
     return this.contentService.findAll(findAllContentDto, user.userId);
