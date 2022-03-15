@@ -4,9 +4,6 @@ import { FindAllContentDto } from './dto/find-all-content.dto';
 import { FindOneContentDto } from './dto/find-one-content.dto';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { LinkService } from './link.service';
-import axios from 'axios';
-import * as convert from 'xml-js';
 
 @Controller('content')
 export class ContentController {

@@ -1,22 +1,17 @@
-import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as convert from 'xml-js';
 import { LinkService } from './link.service';
 import { FindAllContentDto } from './dto/find-all-content.dto';
 import { FindOneContentDto } from './dto/find-one-content.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { ContentModel } from '../../database/model/content.model';
 import { LinkModel } from '../../database/model/link.model';
 
-@Injectable()
 export class ContentService {
   constructor(
     private readonly linkService: LinkService,
-    @InjectRepository(ContentModel)
-    private contentRepository: Repository<ContentModel>,
-    @InjectRepository(LinkModel)
-    private linkRepository: Repository<LinkModel>,
+    private readonly contentRepository: Repository<ContentModel>,
+    private readonly linkRepository: Repository<LinkModel>,
   ) {}
 
   async findAll(findAllContentDto: FindAllContentDto, user_id: string) {
@@ -26,7 +21,6 @@ export class ContentService {
       .select(['link.link_id'])
       .where('user.user_id = :user_id', { user_id })
       .getMany();
-    console.log(ids);
     return this.contentRepository.find({
       where: {
         link_id: In(ids.map((el) => el.link_id)),
@@ -69,7 +63,6 @@ export class ContentService {
             }
           }
           if (item.name !== 'item') continue;
-          // console.log(item.elements);
           for (const info of item.elements) {
             if (info.name === 'title') {
               if (info.elements[0].cdata) {

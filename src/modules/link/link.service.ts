@@ -1,19 +1,11 @@
-import { Injectable } from '@nestjs/common';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LinkModel } from '../../database/model/link.model';
 import { UserModel } from '../../database/model/user.model';
 
-@Injectable()
 export class LinkService {
-  constructor(
-    @InjectRepository(LinkModel)
-    private linkRepository: Repository<LinkModel>,
-    @InjectRepository(UserModel)
-    private usersRepository: Repository<LinkModel>,
-  ) {}
+  constructor(private linkRepository: Repository<LinkModel>) {}
 
   create(createLinkDto: CreateLinkDto, user_id: string) {
     const user = new UserModel();
@@ -26,20 +18,10 @@ export class LinkService {
   }
 
   async findAllForJob() {
-    const data = await this.linkRepository.find();
-    return data;
+    return await this.linkRepository.find();
   }
 
   findAll(user_id: string) {
-    return this.linkRepository
-      .createQueryBuilder('link')
-      .leftJoinAndSelect('link.user', 'user')
-      .select(['link.link_id', 'link.name', 'link.link', 'link.description'])
-      .where('user.user_id = :user_id', { user_id })
-      .getMany();
-  }
-
-  findAllByUserId(user_id: string) {
     return this.linkRepository
       .createQueryBuilder('link')
       .leftJoinAndSelect('link.user', 'user')

@@ -7,7 +7,6 @@ import {
   JoinTable,
 } from 'typeorm';
 import { ContentModel } from './content.model';
-import { User } from '../../modules/user/entities/user.entity';
 import { UserModel } from './user.model';
 
 @Entity({ name: 'link' })
