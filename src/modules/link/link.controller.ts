@@ -22,7 +22,6 @@ export class LinkController {
   @Post()
   create(@Request() req, @Body() createLinkDto: CreateLinkDto) {
     const user = req.user;
-    console.log(user);
     return this.linkService.create(createLinkDto, user.userId);
   }
 

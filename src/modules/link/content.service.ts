@@ -28,6 +28,8 @@ export class ContentService {
       order: {
         date: 'DESC',
       },
+      take: +findAllContentDto.take,
+      skip: +findAllContentDto.start,
     });
   }
 
@@ -72,7 +74,7 @@ export class ContentService {
                 infoItem['title'] = info.elements[0].text;
               }
             }
-            if (info.name === 'guid') {
+            if (info.name === 'link') {
               if (info.elements[0].text) {
                 infoItem['link'] = info.elements[0].text;
               }
