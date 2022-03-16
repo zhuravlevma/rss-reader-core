@@ -7,9 +7,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ContentService } from './content.service';
-import { FindAllContentDto } from './dto/find-all-content.dto';
-import { FindOneContentDto } from './dto/find-one-content.dto';
-import { JwtAuthGuard } from '../auth/jwt.auth.guard';
+import { FindAllContentDto } from '../dto/find-all-content.dto';
+import { FindOneContentDto } from '../dto/find-one-content.dto';
+import { JwtAuthGuard } from '../../auth/jwt.auth.guard';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller('content')

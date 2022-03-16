@@ -24,9 +24,6 @@ export class ContentModel {
   @Column({ type: 'timestamptz', nullable: false })
   date: Date;
 
-  @Column({ type: 'varchar', length: 128, name: 'logo_url', nullable: true })
-  logo_url: string;
-
   @Column({ name: 'link_id', nullable: false })
   link_id: string;
 

@@ -4,12 +4,13 @@ import { UserController } from './user.controller';
 import { UserModel } from '../../database/model/user.model';
 import { createConnection } from 'typeorm';
 import { databaseConfig } from '../../database/database.config';
+import { UserRepository } from 'src/database/constant';
 
 @Module({
   controllers: [UserController],
   providers: [
     {
-      provide: 'UserRepository',
+      provide: UserRepository,
       useFactory: async () => {
         const connection = await createConnection(databaseConfig);
         return connection.getRepository(UserModel);
@@ -20,7 +21,7 @@ import { databaseConfig } from '../../database/database.config';
       useFactory: async (userRepository) => {
         return new UserService(userRepository);
       },
-      inject: ['UserRepository'],
+      inject: [UserRepository],
     },
   ],
   exports: [UserService],
