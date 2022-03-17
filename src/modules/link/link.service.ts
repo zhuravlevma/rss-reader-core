@@ -14,6 +14,7 @@ export class LinkService {
       ...createLinkDto,
       user: [user],
     });
+    console.log(link);
     return this.linkRepository.save(link);
   }
 
@@ -25,7 +26,7 @@ export class LinkService {
     return this.linkRepository
       .createQueryBuilder('link')
       .leftJoinAndSelect('link.user', 'user')
-      .select(['link.link_id', 'link.name', 'link.link', 'link.description'])
+      .select(['link.link_id', 'link.name', 'link.link'])
       .where('user.user_id = :user_id', { user_id })
       .getMany();
   }

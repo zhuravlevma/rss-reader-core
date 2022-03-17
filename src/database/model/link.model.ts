@@ -20,9 +20,6 @@ export class LinkModel {
   @Column({ length: 255, type: 'varchar', nullable: false, unique: true })
   link: string;
 
-  @Column({ length: 255, type: 'varchar', nullable: false })
-  description: string;
-
   @OneToMany(() => ContentModel, (content) => content.link)
   content: ContentModel[];
 
