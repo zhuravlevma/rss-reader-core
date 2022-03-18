@@ -21,7 +21,7 @@ export class AppController {
     res.cookie('accessToken', access_token, {
       expires: new Date(new Date().getTime() + 30 * 1000 * 455),
       domain: false,
-      // httpOnly: true,
+      httpOnly: true,
     });
     return res.send({ access_token });
   }
