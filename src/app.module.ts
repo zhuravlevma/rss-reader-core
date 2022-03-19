@@ -15,9 +15,10 @@ import configuration from './config/configuration';
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       load: [configuration],
+      ignoreEnvFile: false,
+      ignoreEnvVars: false,
     }),
   ],
   controllers: [AppController],
-  providers: [ConfigService],
 })
 export class AppModule {}

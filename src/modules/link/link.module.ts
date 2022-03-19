@@ -1,34 +1,30 @@
 import { Module } from '@nestjs/common';
 import { LinkService } from './link.service';
 import { LinkController } from './link.controller';
-import { LinkModel } from '../../database/model/link.model';
 import { ContentService } from './content/content.service';
 import { ContentController } from './content/content.controller';
 import { AuthModule } from '../auth/auth.module';
-import { ContentModel } from '../../database/model/content.model';
-import { databaseConfig } from '../../database/database.config';
-import { createConnection } from 'typeorm';
 import { ContentRepository, LinkRepository } from '../../database/constant';
 import { XmlService } from '../xml/xml.service';
+import { DatabaseModule } from '../../database/database.module';
+import { DatabaseService } from '../../database/database.service';
 
 @Module({
-  imports: [AuthModule],
+  imports: [DatabaseModule, AuthModule],
   controllers: [LinkController, ContentController],
   providers: [
     XmlService,
     {
       provide: LinkRepository,
-      useFactory: async () => {
-        const connection = await createConnection(databaseConfig);
-        return connection.getRepository(LinkModel);
-      },
+      useFactory: async (databaseService) =>
+        databaseService.getLinkRepository(),
+      inject: [DatabaseService],
     },
     {
       provide: ContentRepository,
-      useFactory: async () => {
-        const connection = await createConnection(databaseConfig);
-        return connection.getRepository(ContentModel);
-      },
+      useFactory: async (databaseService) =>
+        databaseService.getContentRepository(),
+      inject: [DatabaseService],
     },
     {
       provide: LinkService,
