@@ -43,6 +43,4 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       - name: Pull
-        run: docker pull ghcr.io/zhuravlevma/rss-reader-core
-      - name: Docker run
-        run: docker run rss-reader-core
+        run: docker pull ghcr.io/zhuravlevma/rss-reader-core:latest
