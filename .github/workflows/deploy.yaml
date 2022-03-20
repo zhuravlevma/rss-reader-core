@@ -21,3 +21,5 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
+      - name: Docker run
+        run: docker run rss-reader-core:sha256-274a8ef9beb0182b4d3e82f4442b6867e276000c6a57aece74ccee64a8a7d3d9.sig
