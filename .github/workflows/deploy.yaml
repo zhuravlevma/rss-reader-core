@@ -43,6 +43,6 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       - name: Pull
-        run: docker pull rss-reader-core:sha256-274a8ef9beb0182b4d3e82f4442b6867e276000c6a57aece74ccee64a8a7d3d9.sig
+        run: docker pull ghcr.io/zhuravlevma/rss-reader-core:sha256-ee657821304611e72863e409a355f992fd8ac2c11a2e66d0cd14e97985e82df1.sig
       - name: Docker run
-        run: docker run rss-reader-core:sha256-274a8ef9beb0182b4d3e82f4442b6867e276000c6a57aece74ccee64a8a7d3d9.sig
+        run: docker run rss-reader-core:sha256-ee657821304611e72863e409a355f992fd8ac2c11a2e66d0cd14e97985e82df1.sig
