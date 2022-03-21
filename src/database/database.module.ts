@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseService } from './database.service';
+import { ContentRepository, LinkRepository, UserRepository } from './constant';
 
 @Module({
   imports: [ConfigService],
@@ -13,7 +14,24 @@ import { DatabaseService } from './database.service';
       },
       inject: [ConfigService],
     },
+    {
+      provide: LinkRepository,
+      useFactory: async (databaseService) =>
+        databaseService.getLinkRepository(),
+      inject: [DatabaseService],
+    },
+    {
+      provide: ContentRepository,
+      useFactory: async (databaseService) =>
+        databaseService.getContentRepository(),
+      inject: [DatabaseService],
+    },
+    {
+      provide: UserRepository,
+      useFactory: (databaseService) => databaseService.getUserRepository(),
+      inject: [DatabaseService],
+    },
   ],
-  exports: [DatabaseService],
+  exports: [UserRepository, LinkRepository, ContentRepository],
 })
 export class DatabaseModule {}

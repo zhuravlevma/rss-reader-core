@@ -11,7 +11,6 @@ import { LinkModel } from './model/link.model';
 import { ContentModel } from './model/content.model';
 
 export class DatabaseService {
-  // private connection: Connection,
   private readonly connectionOptions: ConnectionOptions;
   constructor(private readonly config: ConfigService) {
     this.connectionOptions = {
