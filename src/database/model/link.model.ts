@@ -14,9 +14,6 @@ export class LinkModel {
   @PrimaryGeneratedColumn('uuid')
   link_id: string;
 
-  @Column({ length: 255, type: 'varchar', nullable: false })
-  name: string;
-
   @Column({ length: 255, type: 'varchar', nullable: false, unique: true })
   link: string;
 

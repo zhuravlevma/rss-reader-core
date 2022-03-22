@@ -7,15 +7,26 @@ import { UserModel } from '../../database/model/user.model';
 export class LinkService {
   constructor(private linkRepository: Repository<LinkModel>) {}
 
-  create(createLinkDto: CreateLinkDto, user_id: string) {
+  async create(createLinkDto: CreateLinkDto, user_id: string) {
     const user = new UserModel();
     user.user_id = user_id;
+    const searched = await this.linkRepository.findOne({
+      relations: ['user'],
+      where: {
+        link: createLinkDto.link,
+      },
+    });
+    if (searched) {
+      searched.user = [...searched.user, user];
+      await this.linkRepository.save(searched);
+      return { link_id: searched.link_id, link: searched.link };
+    }
     const link = this.linkRepository.create({
       ...createLinkDto,
       user: [user],
     });
-    console.log(link);
-    return this.linkRepository.save(link);
+    const saved = await this.linkRepository.save(link);
+    return { link_id: saved.link_id, link: saved.link };
   }
 
   async findAllForJob() {
@@ -26,7 +37,7 @@ export class LinkService {
     return this.linkRepository
       .createQueryBuilder('link')
       .leftJoinAndSelect('link.user', 'user')
-      .select(['link.link_id', 'link.name', 'link.link'])
+      .select(['link.link_id', 'link.link'])
       .where('user.user_id = :user_id', { user_id })
       .getMany();
   }
@@ -39,7 +50,14 @@ export class LinkService {
     return this.linkRepository.update(id, updateLinkDto);
   }
 
-  remove(id: string) {
-    return this.linkRepository.delete(id);
+  async remove(id: string, userId: string) {
+    const link = await this.linkRepository.findOne(id, {
+      relations: ['user'],
+    });
+    link.user = link.user.filter((user) => {
+      return user.user_id !== userId;
+    });
+    await this.linkRepository.save(link);
+    return true;
   }
 }
