@@ -18,17 +18,16 @@ export class XmlService {
   }
 
   getChannelElement(initData) {
-    return initData.elements[0].elements;
+    return initData?.elements[0]?.elements;
   }
 
   getItems(channelData) {
-    return channelData.elements;
+    return channelData?.elements;
   }
 
   getImage(itemData) {
-    console.log(itemData);
     for (const elem of itemData.elements) {
-      if (elem.name === 'url') {
+      if (elem?.name === 'url') {
         this.getXmlTextFromColumn(elem);
       }
     }
@@ -36,10 +35,10 @@ export class XmlService {
   }
 
   getXmlTextFromColumn(element): string {
-    if (element.elements[0].text) {
+    if (element?.elements[0]?.text) {
       return element.elements[0].text;
     }
-    if (element.elements[0].cdata) {
+    if (element?.elements[0]?.cdata) {
       return element.elements[0].cdata;
     }
     return null;

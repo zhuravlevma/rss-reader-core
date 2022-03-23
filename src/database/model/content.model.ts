@@ -27,9 +27,7 @@ export class ContentModel {
   @Column({ name: 'link_id', nullable: false })
   link_id: string;
 
-  @ManyToOne(() => LinkModel, (link) => link.content, {
-    cascade: true,
-  })
+  @ManyToOne(() => LinkModel, (link) => link.content)
   @JoinColumn({ name: 'link_id' })
   link: LinkModel;
 }

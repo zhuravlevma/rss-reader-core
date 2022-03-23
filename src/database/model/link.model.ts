@@ -17,7 +17,9 @@ export class LinkModel {
   @Column({ length: 255, type: 'varchar', nullable: false, unique: true })
   link: string;
 
-  @OneToMany(() => ContentModel, (content) => content.link)
+  @OneToMany(() => ContentModel, (content) => content.link, {
+    cascade: true,
+  })
   content: ContentModel[];
 
   @ManyToMany(() => UserModel)

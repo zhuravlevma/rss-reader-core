@@ -4,7 +4,6 @@ import { DatabaseService } from './database.service';
 import { ContentRepository, LinkRepository, UserRepository } from './constant';
 
 @Module({
-  imports: [ConfigService],
   providers: [
     ConfigService,
     {

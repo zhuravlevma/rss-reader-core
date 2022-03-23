@@ -6,6 +6,7 @@ import { In, Repository } from 'typeorm';
 import { ContentModel } from '../../../database/model/content.model';
 import { LinkModel } from '../../../database/model/link.model';
 import { XmlService } from '../../xml/xml.service';
+import * as fs from 'fs';
 
 export class ContentService {
   constructor(
@@ -37,8 +38,12 @@ export class ContentService {
   async findOne(findOneContentDto: FindOneContentDto) {
     const link = await this.linkService.findOne(findOneContentDto.link_id);
     const url = link.link;
-    const { data } = await axios.get(url);
-    return this.xmlService.convertFromXml(data);
+    try {
+      const { data } = await axios.get(url);
+      return this.xmlService.convertFromXml(data);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async findAllForJob() {
