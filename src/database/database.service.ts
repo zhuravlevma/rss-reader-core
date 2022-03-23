@@ -1,12 +1,6 @@
-import {
-  Connection,
-  ConnectionOptions,
-  createConnection,
-  Repository,
-} from 'typeorm';
+import { ConnectionOptions, createConnection, Repository } from 'typeorm';
 import { UserModel } from './model/user.model';
 import { ConfigService } from '@nestjs/config';
-import { databaseConfig } from './database.config';
 import { LinkModel } from './model/link.model';
 import { ContentModel } from './model/content.model';
 

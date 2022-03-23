@@ -6,7 +6,6 @@ import { In, Repository } from 'typeorm';
 import { ContentModel } from '../../../database/model/content.model';
 import { LinkModel } from '../../../database/model/link.model';
 import { XmlService } from '../../xml/xml.service';
-import * as fs from 'fs';
 
 export class ContentService {
   constructor(
